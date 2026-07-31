@@ -2,7 +2,7 @@
 
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import Script from "next/script";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   getSupabaseBrowserClient,
   isSupabaseConfigured,
@@ -167,6 +167,7 @@ export default function Home() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [completed, setCompleted] = useState<number[]>([]);
   const [syncingIds, setSyncingIds] = useState<number[]>([]);
+  const [taskCompletionCounts, setTaskCompletionCounts] = useState<Record<number, number>>({});
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [plantationView, setPlantationView] = useState<"plot" | "leaders">("plot");
   const [filter, setFilter] = useState<"all" | "todo" | "done">("all");
@@ -177,6 +178,26 @@ export default function Home() {
   const plantationRef = useRef<HTMLElement>(null);
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const googleSetupVersionRef = useRef(0);
+
+  const loadTaskCompletionCounts = useCallback(async () => {
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
+
+    const { data, error } = await supabase
+      .from("task_completion_counts")
+      .select("task_id, completion_count");
+
+    if (!error && data) {
+      setTaskCompletionCounts(
+        Object.fromEntries(
+          data.map((entry: { task_id: number; completion_count: number }) => [
+            Number(entry.task_id),
+            Number(entry.completion_count),
+          ])
+        )
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const authMessage = new URLSearchParams(window.location.search).get("auth_error");
@@ -253,6 +274,22 @@ export default function Home() {
       window.localStorage.setItem("tgaif-completed", JSON.stringify(completed));
     }
   }, [completed]);
+
+  useEffect(() => {
+    if (!isSupabaseConfigured || screen !== "game") return;
+
+    const initialRefreshId = window.setTimeout(() => {
+      void loadTaskCompletionCounts();
+    }, 0);
+    const intervalId = window.setInterval(() => {
+      void loadTaskCompletionCounts();
+    }, 5000);
+
+    return () => {
+      window.clearTimeout(initialRefreshId);
+      window.clearInterval(intervalId);
+    };
+  }, [loadTaskCompletionCounts, screen]);
 
   useEffect(() => {
     if (
@@ -359,7 +396,7 @@ export default function Home() {
         ?.map((row: { task_id: number }) => Number(row.task_id))
         .sort((a: number, b: number) => a - b) ?? []
     );
-    await loadLeaderboard();
+    await Promise.all([loadLeaderboard(), loadTaskCompletionCounts()]);
   }
 
   async function loadLeaderboard() {
@@ -432,6 +469,13 @@ export default function Home() {
     if (syncingIds.includes(id)) return;
 
     const isDone = completed.includes(id);
+    const isFull = (taskCompletionCounts[id] ?? 0) >= 5 && !isDone;
+    if (isFull) {
+      setToast("Five players already ticked this task.");
+      window.setTimeout(() => setToast(""), 2600);
+      return;
+    }
+
     const previous = completed;
     setCompleted((current) =>
       isDone ? current.filter((item) => item !== id) : [...current, id]
@@ -462,12 +506,18 @@ export default function Home() {
 
     if (result.error) {
       setCompleted(previous);
-      setToast("The app did not save the tick. Try again.");
+      setNewPlant(null);
+      setToast(
+        result.error.message.includes("task_full")
+          ? "Five players already ticked this task."
+          : "The app did not save the tick. Try again."
+      );
       window.setTimeout(() => setToast(""), 2800);
+      await loadTaskCompletionCounts();
       return;
     }
 
-    await loadLeaderboard();
+    await Promise.all([loadLeaderboard(), loadTaskCompletionCounts()]);
   }
 
   async function resetPlantation() {
@@ -489,7 +539,7 @@ export default function Home() {
         window.setTimeout(() => setToast(""), 2600);
         return;
       }
-      await loadLeaderboard();
+      await Promise.all([loadLeaderboard(), loadTaskCompletionCounts()]);
     }
 
     setToast("The plot is empty. Tick a task to plant a clump.");
@@ -697,13 +747,20 @@ export default function Home() {
                   {categoryTasks.map((task) => {
                     const isDone = completed.includes(task.id);
                     const isSyncing = syncingIds.includes(task.id);
+                    const isFull =
+                      (taskCompletionCounts[task.id] ?? 0) >= 5 && !isDone;
                     return (
                       <button
-                        className={`task-row ${isDone ? "done" : ""} ${isSyncing ? "syncing" : ""}`}
+                        className={`task-row ${isDone ? "done" : ""} ${isSyncing ? "syncing" : ""} ${isFull ? "full" : ""}`}
                         key={task.id}
                         onClick={() => toggleTask(task.id)}
                         aria-pressed={isDone}
-                        disabled={isSyncing}
+                        aria-label={
+                          isFull
+                            ? `${task.text} Five players already ticked this task.`
+                            : task.text
+                        }
+                        disabled={isSyncing || isFull}
                       >
                         <span className="checkbox" aria-hidden="true">
                           <i>✓</i>

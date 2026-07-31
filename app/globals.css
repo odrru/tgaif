@@ -677,6 +677,28 @@ input:focus-visible {
   animation: pulse 700ms ease-in-out infinite;
 }
 
+.task-row.full,
+.task-row.full:hover {
+  transform: none;
+  border-color: #dde1dd;
+  background: #f1f2f0;
+  color: #9aa09c;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.62;
+}
+
+.task-row.full .checkbox {
+  border-color: #c3c8c4;
+  background: #e6e8e6;
+}
+
+.task-row.full .task-copy strong,
+.task-row.full .task-copy small,
+.task-row.full .task-number {
+  color: #9aa09c;
+}
+
 .checkbox {
   width: 24px;
   height: 24px;
