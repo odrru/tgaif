@@ -79,34 +79,34 @@ async function generateGoogleNonce() {
 }
 
 const tasks: Task[] = [
-  { id: 1, category: "Arrive", text: "Take a team selfie at the entrance", hint: "Proof or it didn’t happen" },
-  { id: 2, category: "Arrive", text: "Try the signature welcome drink" },
-  { id: 3, category: "Arrive", text: "Add one song to the party queue" },
-  { id: 4, category: "Arrive", text: "Say hello to someone from another team" },
-  { id: 5, category: "Connect", text: "Learn a new Luganda word from a colleague" },
-  { id: 6, category: "Connect", text: "Introduce two people who haven’t met" },
-  { id: 7, category: "Connect", text: "Find someone who joined the office this year" },
-  { id: 8, category: "Connect", text: "Compliment someone’s recent work" },
-  { id: 9, category: "Connect", text: "Get a photo with someone wearing green" },
-  { id: 10, category: "Taste", text: "Try a party bite you’ve never had before" },
-  { id: 11, category: "Taste", text: "Share a plate with someone" },
-  { id: 12, category: "Taste", text: "Vote for your favourite party snack" },
-  { id: 13, category: "Taste", text: "Drink a full glass of water", hint: "Sustainable partying, too" },
-  { id: 14, category: "Play", text: "Win — or loudly cheer on — a party game" },
-  { id: 15, category: "Play", text: "Start a three-person dance circle" },
-  { id: 16, category: "Play", text: "Do the official TG(AI)F pose for a photo" },
-  { id: 17, category: "Play", text: "Make someone laugh out loud" },
-  { id: 18, category: "Play", text: "Give someone a five-second dance lesson" },
-  { id: 19, category: "Imagine", text: "Share one idea for a greener office" },
-  { id: 20, category: "Imagine", text: "Sketch a tiny bamboo pavilion" },
-  { id: 21, category: "Imagine", text: "Name a bamboo building you’d love to visit" },
-  { id: 22, category: "Imagine", text: "Spot three things at the party made from natural materials" },
-  { id: 23, category: "Celebrate", text: "Tell someone why you like working here" },
-  { id: 24, category: "Celebrate", text: "Thank a behind-the-scenes organiser" },
-  { id: 25, category: "Celebrate", text: "Toast to something the team achieved" },
-  { id: 26, category: "Celebrate", text: "Take a photo of your growing plantation" },
-  { id: 27, category: "Celebrate", text: "Stay for the big group photo" },
-  { id: 28, category: "Celebrate", text: "Show your plantation to another grower" },
+  { id: 1, category: "Arrive", text: "Take a team selfie at the entrance.", hint: "Keep the photo as proof." },
+  { id: 2, category: "Arrive", text: "Try the welcome drink." },
+  { id: 3, category: "Arrive", text: "Add one song to the party playlist." },
+  { id: 4, category: "Arrive", text: "Speak to one person from a different team." },
+  { id: 5, category: "Connect", text: "Learn one Luganda word from a colleague." },
+  { id: 6, category: "Connect", text: "Introduce two persons who do not know each other." },
+  { id: 7, category: "Connect", text: "Find one person who started work this year." },
+  { id: 8, category: "Connect", text: "Tell one person that you value their recent work." },
+  { id: 9, category: "Connect", text: "Take a photo with one person who wears green." },
+  { id: 10, category: "Taste", text: "Try one TGIF party food that you have not eaten before." },
+  { id: 11, category: "Taste", text: "Share a plate of food with one person." },
+  { id: 12, category: "Taste", text: "Vote for your favourite TGIF party snack." },
+  { id: 13, category: "Taste", text: "Drink one full glass of water.", hint: "Water helps you stay hydrated." },
+  { id: 14, category: "Play", text: "Win a TGIF party game, or cheer for another player." },
+  { id: 15, category: "Play", text: "Start a dance with three persons." },
+  { id: 16, category: "Play", text: "Use the official TG(AI)F pose for one photo." },
+  { id: 17, category: "Play", text: "Make one person laugh." },
+  { id: 18, category: "Play", text: "Teach one person a dance for five seconds." },
+  { id: 19, category: "Imagine", text: "Give one idea for a more sustainable office." },
+  { id: 20, category: "Imagine", text: "Draw a small bamboo pavilion." },
+  { id: 21, category: "Imagine", text: "Name one bamboo building that you want to visit." },
+  { id: 22, category: "Imagine", text: "Find three objects at the TGIF party that use natural materials." },
+  { id: 23, category: "Celebrate", text: "Tell one person why you like working here." },
+  { id: 24, category: "Celebrate", text: "Thank one TGIF party organiser." },
+  { id: 25, category: "Celebrate", text: "Make a toast for one team achievement." },
+  { id: 26, category: "Celebrate", text: "Take a photo of your plot." },
+  { id: 27, category: "Celebrate", text: "Join the group photo." },
+  { id: 28, category: "Celebrate", text: "Show your plot to one other player." },
 ];
 
 const plotPositions = [
@@ -117,21 +117,21 @@ const plotPositions = [
 ];
 
 const categoryNotes: Record<string, string> = {
-  Arrive: "Warm up",
-  Connect: "Meet your people",
-  Taste: "Fuel the fun",
-  Play: "Make a memory",
-  Imagine: "Design a greener tomorrow",
-  Celebrate: "Finish strong",
+  Arrive: "First tasks",
+  Connect: "Meet people",
+  Taste: "Food and drink",
+  Play: "Games",
+  Imagine: "Ideas",
+  Celebrate: "Team results",
 };
 
 function stageFor(count: number) {
-  if (count === 0) return { name: "Bare earth", next: 1, note: "Your first shoot is one tick away" };
-  if (count < 6) return { name: "First shoots", next: 6, note: "A small grove is taking root" };
-  if (count < 13) return { name: "Young grove", next: 13, note: "The canopy is beginning to form" };
-  if (count < 21) return { name: "Growing canopy", next: 21, note: "Now this looks like a plantation" };
-  if (count < tasks.length) return { name: "Bamboo boss", next: tasks.length, note: "The finish line is in sight" };
-  return { name: "Full plantation", next: tasks.length, note: "Legendary party energy" };
+  if (count === 0) return { name: "Bare earth", next: 1, note: "One tick plants your first clump." };
+  if (count < 6) return { name: "First clumps", next: 6, note: "Your plot has its first clumps." };
+  if (count < 13) return { name: "Young bamboo", next: 13, note: "Your clumps are growing." };
+  if (count < 21) return { name: "Tall bamboo", next: 21, note: "Your plot has many clumps." };
+  if (count < tasks.length) return { name: "Dense bamboo", next: tasks.length, note: "Tick more tasks to fill your plot." };
+  return { name: "Full plot", next: tasks.length, note: "You ticked all tasks." };
 }
 
 function initialsFor(name: string) {
@@ -163,7 +163,7 @@ export default function Home() {
   const [loggingIn, setLoggingIn] = useState(false);
   const [authError, setAuthError] = useState("");
   const [user, setUser] = useState<User | null>(null);
-  const [playerName, setPlayerName] = useState("Party Guest");
+  const [playerName, setPlayerName] = useState("TGIF party guest");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [completed, setCompleted] = useState<number[]>([]);
   const [syncingIds, setSyncingIds] = useState<number[]>([]);
@@ -173,7 +173,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [newPlant, setNewPlant] = useState<number | null>(null);
   const [toast, setToast] = useState("");
-  const [shareLabel, setShareLabel] = useState("Show off my plantation");
+  const [shareLabel, setShareLabel] = useState("Show my plot");
   const plantationRef = useRef<HTMLElement>(null);
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const googleSetupVersionRef = useRef(0);
@@ -212,7 +212,7 @@ export default function Home() {
       if (!active) return;
 
       if (error && error.name !== "AuthSessionMissingError") {
-        setAuthError("We couldn’t restore your session. Please sign in again.");
+        setAuthError("The app cannot restore your session. Sign in again.");
       }
       if (data.user) {
         setUser(data.user);
@@ -315,7 +315,7 @@ export default function Home() {
         });
         setGoogleButtonReady(true);
       } catch {
-        setAuthError("Google sign-in could not load. Please refresh and try again.");
+        setAuthError("Google sign-in did not load. Refresh the page and try again.");
       }
     }
 
@@ -346,7 +346,7 @@ export default function Home() {
       account.user_metadata.full_name ??
       account.user_metadata.name ??
       account.email?.split("@")[0] ??
-      "Party Guest";
+      "TGIF party guest";
     const metadataAvatar =
       account.user_metadata.avatar_url ??
       account.user_metadata.picture ??
@@ -416,7 +416,7 @@ export default function Home() {
     const supabase = getSupabaseBrowserClient();
 
     if (supabase) {
-      setAuthError("Google sign-in is still loading. Please try again.");
+      setAuthError("Google sign-in is loading. Try again.");
       return;
     }
 
@@ -439,7 +439,7 @@ export default function Home() {
 
     if (!isDone) {
       setNewPlant(id);
-      setToast("New bamboo! Your plantation just got greener.");
+      setToast("The tick planted one clump on your plot.");
       window.setTimeout(() => setNewPlant(null), 1200);
       window.setTimeout(() => setToast(""), 2600);
     }
@@ -462,7 +462,7 @@ export default function Home() {
 
     if (result.error) {
       setCompleted(previous);
-      setToast("That change didn’t save. Please try once more.");
+      setToast("The app did not save the tick. Try again.");
       window.setTimeout(() => setToast(""), 2800);
       return;
     }
@@ -472,7 +472,7 @@ export default function Home() {
 
   async function resetPlantation() {
     if (completed.length === 0) return;
-    if (!window.confirm("Clear every tick and return this plot to bare earth?")) return;
+    if (!window.confirm("This action clears every tick and returns the plot to bare earth.")) return;
 
     const previous = completed;
     setCompleted([]);
@@ -485,14 +485,14 @@ export default function Home() {
         .eq("user_id", user.id);
       if (error) {
         setCompleted(previous);
-        setToast("Your plantation couldn’t be reset. Please try again.");
+        setToast("The app did not reset your plot. Try again.");
         window.setTimeout(() => setToast(""), 2600);
         return;
       }
       await loadLeaderboard();
     }
 
-    setToast("Fresh plot. Ready to grow again.");
+    setToast("The plot is empty. Tick a task to plant a clump.");
     window.setTimeout(() => setToast(""), 2200);
   }
 
@@ -507,18 +507,18 @@ export default function Home() {
   }
 
   async function sharePlantation() {
-    const message = `${playerName} grew ${completed.length} of ${tasks.length} bamboo clumps at TG(AI)F — ${stage.name}! 🎋`;
+    const message = `${playerName} planted ${completed.length} of ${tasks.length} clumps at the TGIF party. Plot stage: ${stage.name}.`;
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "My TG(AI)F plantation",
+          title: "My TG(AI)F plot",
           text: message,
           url: window.location.origin,
         });
       } else {
         await navigator.clipboard.writeText(`${message} ${window.location.origin}`);
-        setShareLabel("Score copied!");
-        window.setTimeout(() => setShareLabel("Show off my plantation"), 1800);
+        setShareLabel("The app copied your score.");
+        window.setTimeout(() => setShareLabel("Show my plot"), 1800);
       }
     } catch {
       // Closing the native share sheet should leave the experience unchanged.
@@ -533,15 +533,14 @@ export default function Home() {
             <BambooMark />
             <span>TG<span className="ai">(AI)</span>F</span>
           </a>
-          <span className="event-pill"><span /> Tonight · Kampala</span>
         </header>
 
         <section className="login-card" aria-labelledby="welcome-title">
-          <div className="eyebrow">THE OFFICE PARTY BUCKET LIST</div>
-          <h1 id="welcome-title">Do more.<br /><span>Grow more.</span></h1>
+          <div className="eyebrow">THE TGIF PARTY TASK LIST</div>
+          <h1 id="welcome-title">Do tasks.<br /><span>Grow bamboo.</span></h1>
           <p className="login-lede">
-            Every party mission you tick off plants a new bamboo clump.
-            How lush can your plot get before the night ends?
+            Each tick plants one bamboo clump on your plot.
+            Grow as much as you can.
           </p>
 
           {isSupabaseConfigured ? (
@@ -551,7 +550,7 @@ export default function Home() {
                 strategy="afterInteractive"
                 onReady={() => setGoogleScriptReady(true)}
                 onError={() =>
-                  setAuthError("Google sign-in could not load. Please refresh and try again.")
+                  setAuthError("Google sign-in did not load. Refresh the page and try again.")
                 }
               />
               <div
@@ -567,7 +566,7 @@ export default function Home() {
                     <span>
                       {!authReady || !googleButtonReady
                         ? "Loading secure sign-in…"
-                        : "Opening your plot…"}
+                        : "Opening the task list…"}
                     </span>
                   </button>
                 )}
@@ -582,9 +581,9 @@ export default function Home() {
               {loggingIn || !authReady ? <span className="spinner" /> : <GoogleMark />}
               <span>
                 {!authReady
-                  ? "Checking your plot…"
+                  ? "Checking your account…"
                   : loggingIn
-                    ? "Opening your plot…"
+                    ? "Opening the task list…"
                     : "Continue with Google"}
               </span>
             </button>
@@ -593,17 +592,10 @@ export default function Home() {
             {authError
               ? authError
               : isSupabaseConfigured
-                ? "Secure sign-in · progress follows your Google account"
-                : "Local preview · no real account needed yet"}
+                ? "The app saves your progress to your account."
+                : ""}
           </p>
 
-          <div className="how-it-works" aria-label="How the game works">
-            <div><strong>01</strong><span>Do the thing</span></div>
-            <i>→</i>
-            <div><strong>02</strong><span>Tick it off</span></div>
-            <i>→</i>
-            <div><strong>03</strong><span>Grow bamboo</span></div>
-          </div>
         </section>
 
         <div className="login-art" aria-hidden="true">
@@ -619,9 +611,9 @@ export default function Home() {
         </div>
 
         <footer className="login-footer">
-          <span>Built to grow good times</span>
-          <span className="footer-dot">•</span>
-          <span>One tick = one bamboo clump</span>
+          <span></span>
+          <span className="footer-dot"></span>
+          <span>ONE TICK = ONE CLUMP</span>
         </footer>
       </main>
     );
@@ -634,14 +626,14 @@ export default function Home() {
           <BambooMark />
           <span>TG<span className="ai">(AI)</span>F</span>
         </a>
-        <div className="header-progress" aria-label={`${progress}% complete`}>
+        <div className="header-progress" aria-label={`Progress: ${completed.length} of ${tasks.length}`}>
           <div className="header-progress-copy">
-            <span>TONIGHT&apos;S PROGRESS</span>
-            <strong>{completed.length}<small> / {tasks.length}</small></strong>
+            <span>PROGRESS:</span>
+            <strong>{completed.length}<small> OF {tasks.length}</small></strong>
           </div>
           <div className="progress-track"><span style={{ width: `${progress}%` }} /></div>
         </div>
-        <button className="avatar-button" onClick={signOut} title={`Sign out ${playerName}`}>
+        <button className="avatar-button" onClick={signOut} title={`Sign out as ${playerName}.`}>
           {avatarUrl ? (
             <img src={avatarUrl} alt="" referrerPolicy="no-referrer" />
           ) : (
@@ -655,18 +647,18 @@ export default function Home() {
         <section className="missions-panel" aria-labelledby="missions-heading">
           <div className="missions-heading-row">
             <div>
-              <p className="eyebrow">TONIGHT&apos;S BUCKET LIST</p>
-              <h1 id="missions-heading">Make it count.</h1>
+              <p className="eyebrow">TONIGHT&apos;S TASKS</p>
+              <h1 id="missions-heading">Do the tasks.</h1>
             </div>
             <button
               className="jump-to-land"
               onClick={() => plantationRef.current?.scrollIntoView({ behavior: "smooth" })}
             >
-              See my land <span>↘</span>
+              View my plot <span>↘</span>
             </button>
           </div>
           <p className="missions-intro">
-            Pick your adventures in any order. Be honest — the bamboo knows.
+            Do the tasks in any sequence. Tick a task only when it is done.
           </p>
 
           <div className="list-tools">
@@ -675,8 +667,8 @@ export default function Home() {
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search the bucket list"
-                aria-label="Search the bucket list"
+                placeholder="Find a task"
+                aria-label="Find a task"
               />
             </label>
             <div className="filters" aria-label="Filter tasks">
@@ -730,7 +722,7 @@ export default function Home() {
             {filteredTasks.length === 0 && (
               <div className="empty-list">
                 <span>🌿</span>
-                <strong>No missions found</strong>
+                <strong>No tasks found.</strong>
                 <p>Try another search or filter.</p>
               </div>
             )}
@@ -741,26 +733,26 @@ export default function Home() {
           <div className="plantation-card">
             <div className="plantation-topline">
               <div>
-                <p className="eyebrow">YOUR LIVING SCORE</p>
+                <p className="eyebrow">YOUR PLOT</p>
                 <h2 id="plantation-heading">
-                  {plantationView === "plot" ? stage.name : "Top growers"}
+                  {plantationView === "plot" ? stage.name : "Top players"}
                 </h2>
               </div>
               <div className="plant-count">
                 <strong>{plantationView === "plot" ? completed.length : currentRank || "—"}</strong>
-                <span>{plantationView === "plot" ? <>bamboo<br />clumps</> : <>your<br />rank</>}</span>
+                <span>{plantationView === "plot" ? <>clumps<br /></> : <>your<br />rank</>}</span>
               </div>
             </div>
 
             {isSupabaseConfigured && (
-              <div className="plantation-tabs" role="tablist" aria-label="Plantation views">
+              <div className="plantation-tabs" role="tablist" aria-label="Plot views">
                 <button
                   className={plantationView === "plot" ? "active" : ""}
                   onClick={() => setPlantationView("plot")}
                   role="tab"
                   aria-selected={plantationView === "plot"}
                 >
-                  My plantation
+                  My plot
                 </button>
                 <button
                   className={plantationView === "leaders" ? "active" : ""}
@@ -820,7 +812,7 @@ export default function Home() {
                     <div className="land-edge" />
                   </div>
                   {completed.length === 0 && (
-                    <div className="first-shoot-note"><span>↓</span> Tick a mission to plant here</div>
+                    <div className="first-shoot-note"><span>↓</span> Tick a task to plant a clump.</div>
                   )}
                   <div className="plot-caption"><span className="live-dot" /> LIVE PLOT · KAMPALA</div>
                 </div>
@@ -828,7 +820,7 @@ export default function Home() {
                 <div className="stage-progress">
                   <div>
                     <span>{stage.note}</span>
-                    <strong>{completed.length === tasks.length ? "Maximum growth" : `${stage.next - completed.length} to next stage`}</strong>
+                    <strong>{completed.length === tasks.length ? "ALL TASKS TICKED" : `${stage.next - completed.length} TICK TO THE NEXT STAGE`}</strong>
                   </div>
                   <div className="stage-dots" aria-hidden="true">
                     {[1, 6, 13, 21, 28].map((point) => (
@@ -840,8 +832,8 @@ export default function Home() {
             ) : (
               <div className="leaderboard-board">
                 <div className="leaderboard-labels">
-                  <span>Grower</span>
-                  <span>Grove</span>
+                  <span>Player</span>
+                  <span>Clumps</span>
                 </div>
                 <div className="leaderboard-list">
                   {leaderboard.map((entry, index) => (
@@ -859,7 +851,7 @@ export default function Home() {
                       </span>
                       <span className="leader-name">
                         <strong>{entry.display_name}</strong>
-                        <small>{entry.id === user?.id ? "That’s you" : stageFor(entry.completed_count).name}</small>
+                        <small>{entry.id === user?.id ? "You" : stageFor(entry.completed_count).name}</small>
                       </span>
                       <span className="leader-score">
                         <strong>{entry.completed_count}</strong>
@@ -870,13 +862,13 @@ export default function Home() {
                   {leaderboard.length === 0 && (
                     <div className="leaderboard-empty">
                       <span>🎋</span>
-                      <strong>The field is wide open</strong>
-                      <p>Complete the first mission to claim the top spot.</p>
+                      <strong>No player has a score.</strong>
+                      <p>Tick one task to enter the leaderboard.</p>
                     </div>
                   )}
                 </div>
                 <p className="leaderboard-footnote">
-                  Scores update whenever a mission is ticked off.
+                  The leaderboard updates after each tick.
                 </p>
               </div>
             )}
@@ -885,13 +877,13 @@ export default function Home() {
               <span>↗</span> {shareLabel}
             </button>
             <button className="reset-button" onClick={resetPlantation}>
-              {isSupabaseConfigured ? "Reset my plantation" : "Reset this preview"}
+              {isSupabaseConfigured ? "Reset my plot" : "Reset the preview"}
             </button>
           </div>
 
           <div className="impact-note">
             <BambooMark />
-            <p><strong>Bamboo is a quiet climate hero.</strong> Fast-growing, renewable and wonderfully strong — just like a good team.</p>
+            <p><strong>Bamboo grows quickly.</strong> It is renewable and strong.</p>
           </div>
         </aside>
       </div>

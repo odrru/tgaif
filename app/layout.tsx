@@ -15,26 +15,26 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase,
-    title: "TG(AI)F — The bucket list that grows back",
+    title: "TG(AI)F — The TGIF party task list",
     description:
-      "Tick off tonight's party bucket list and grow your own bamboo plantation.",
+      "Tick tasks at the TGIF party. Grow bamboo clumps on your plot.",
     openGraph: {
       type: "website",
       title: "TG(AI)F",
-      description: "The bucket list that grows back.",
+      description: "Tick tasks at the TGIF party. Grow bamboo clumps on your plot.",
       images: [
         {
           url: "/og.png",
           width: 1660,
           height: 954,
-          alt: "TG(AI)F — The bucket list that grows back",
+          alt: "TG(AI)F — The TGIF party task list",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
       title: "TG(AI)F",
-      description: "The bucket list that grows back.",
+      description: "Tick tasks at the TGIF party. Grow bamboo clumps on your plot.",
       images: ["/og.png"],
     },
   };
