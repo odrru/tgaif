@@ -1291,29 +1291,48 @@ input:focus-visible {
   text-underline-offset: 3px;
 }
 
-.impact-note {
-  display: flex;
-  gap: 13px;
-  align-items: flex-start;
-  margin: 24px 12px 0;
-  color: #748077;
+.reset-confirmation {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 -8px;
+  padding: 13px;
+  border: 1px solid rgba(91, 112, 84, .2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .5);
+  text-align: center;
 }
 
-.impact-note .bamboo-mark {
-  flex: 0 0 auto;
-  transform: scale(.72);
-  transform-origin: top;
-  opacity: .7;
-}
-
-.impact-note p {
+.reset-confirmation p {
   margin: 0;
+  color: #55645a;
   font-size: 10px;
-  line-height: 1.55;
 }
 
-.impact-note strong {
-  color: #55645a;
+.reset-confirmation > div {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.reset-confirmation button {
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.confirm-reset-button {
+  border: 1px solid #a6574c;
+  background: #a6574c;
+  color: white;
+}
+
+.cancel-reset-button {
+  border: 1px solid rgba(91, 112, 84, .28);
+  background: white;
+  color: var(--forest);
 }
 
 .growth-toast {

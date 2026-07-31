@@ -251,6 +251,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [newPlant, setNewPlant] = useState<number | null>(null);
   const [toast, setToast] = useState("");
+  const [showResetConfirmation, setShowResetConfirmation] = useState(false);
   const plantationRef = useRef<HTMLElement>(null);
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const googleSetupVersionRef = useRef(0);
@@ -596,10 +597,18 @@ export default function Home() {
     await Promise.all([loadLeaderboard(), loadTaskCompletionCounts()]);
   }
 
-  async function resetPlantation() {
+  function requestPlantationReset() {
     if (completed.length === 0) return;
-    if (!window.confirm("Are you sure? This will clear all ticks.")) return;
+    setShowResetConfirmation(true);
+  }
 
+  async function resetPlantation() {
+    if (completed.length === 0) {
+      setShowResetConfirmation(false);
+      return;
+    }
+
+    setShowResetConfirmation(false);
     const previous = completed;
     setCompleted([]);
     const supabase = getSupabaseBrowserClient();
@@ -974,14 +983,26 @@ export default function Home() {
               </div>
             )}
 
-            <button className="reset-button" onClick={resetPlantation}>
+            <button
+              className="reset-button"
+              onClick={requestPlantationReset}
+              aria-expanded={showResetConfirmation}
+            >
               Reset my plot
             </button>
-          </div>
-
-          <div className="impact-note">
-            <BambooMark />
-            <p><strong>Bamboo grows quickly.</strong> It is renewable and strong.</p>
+            {showResetConfirmation && (
+              <div className="reset-confirmation" role="group" aria-label="Reset confirmation">
+                <p>Are you sure? This will clear all ticks.</p>
+                <div>
+                  <button className="confirm-reset-button" onClick={resetPlantation}>
+                    Clear all ticks
+                  </button>
+                  <button className="cancel-reset-button" onClick={() => setShowResetConfirmation(false)}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </aside>
       </div>
