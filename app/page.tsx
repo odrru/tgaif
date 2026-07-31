@@ -79,57 +79,134 @@ async function generateGoogleNonce() {
 }
 
 const tasks: Task[] = [
-  { id: 1, category: "Arrive", text: "Take a team selfie at the entrance.", hint: "Keep the photo as proof." },
-  { id: 2, category: "Arrive", text: "Try the welcome drink." },
-  { id: 3, category: "Arrive", text: "Add one song to the party playlist." },
-  { id: 4, category: "Arrive", text: "Speak to one person from a different team." },
-  { id: 5, category: "Connect", text: "Learn one Luganda word from a colleague." },
-  { id: 6, category: "Connect", text: "Introduce two persons who do not know each other." },
-  { id: 7, category: "Connect", text: "Find one person who started work this year." },
-  { id: 8, category: "Connect", text: "Tell one person that you value their recent work." },
-  { id: 9, category: "Connect", text: "Take a photo with one person who wears green." },
-  { id: 10, category: "Taste", text: "Try one TGIF party food that you have not eaten before." },
-  { id: 11, category: "Taste", text: "Share a plate of food with one person." },
-  { id: 12, category: "Taste", text: "Vote for your favourite TGIF party snack." },
-  { id: 13, category: "Taste", text: "Drink one full glass of water.", hint: "Water helps you stay hydrated." },
-  { id: 14, category: "Play", text: "Win a TGIF party game, or cheer for another player." },
-  { id: 15, category: "Play", text: "Start a dance with three persons." },
-  { id: 16, category: "Play", text: "Use the official TG(AI)F pose for one photo." },
-  { id: 17, category: "Play", text: "Make one person laugh." },
-  { id: 18, category: "Play", text: "Teach one person a dance for five seconds." },
-  { id: 19, category: "Imagine", text: "Give one idea for a more sustainable office." },
-  { id: 20, category: "Imagine", text: "Draw a small bamboo pavilion." },
-  { id: 21, category: "Imagine", text: "Name one bamboo building that you want to visit." },
-  { id: 22, category: "Imagine", text: "Find three objects at the TGIF party that use natural materials." },
-  { id: 23, category: "Celebrate", text: "Tell one person why you like working here." },
-  { id: 24, category: "Celebrate", text: "Thank one TGIF party organiser." },
-  { id: 25, category: "Celebrate", text: "Make a toast for one team achievement." },
-  { id: 26, category: "Celebrate", text: "Take a photo of your plot." },
-  { id: 27, category: "Celebrate", text: "Join the group photo." },
-  { id: 28, category: "Celebrate", text: "Show your plot to one other player." },
+  { id: 1, category: "A. Arrival, greetings, and social sneaking", text: "Arrive and greet someone with unnecessary enthusiasm." },
+  { id: 2, category: "A. Arrival, greetings, and social sneaking", text: "Say \"Happy TG(AI)F\" to someone who was not ready for it." },
+  { id: 3, category: "A. Arrival, greetings, and social sneaking", text: "Ask someone how their week was and actually listen." },
+  { id: 4, category: "A. Arrival, greetings, and social sneaking", text: "Secretly learn one new thing about a colleague." },
+  { id: 5, category: "A. Arrival, greetings, and social sneaking", text: "Genuinely compliment someone's outfit, shoes, hair, bag, or general vibe." },
+  { id: 6, category: "A. Arrival, greetings, and social sneaking", text: "Shake someone's hand like you are closing a major construction contract." },
+  { id: 7, category: "A. Arrival, greetings, and social sneaking", text: "Give someone a nickname for the evening." },
+  { id: 8, category: "A. Arrival, greetings, and social sneaking", text: "Get someone to laugh within 30 seconds of starting a conversation." },
+  { id: 9, category: "A. Arrival, greetings, and social sneaking", text: "Introduce yourself to someone you do not usually talk to." },
+  { id: 10, category: "A. Arrival, greetings, and social sneaking", text: "Join a conversation, say one useful thing, and disappear right there and then." },
+  { id: 11, category: "B. Secret mischief, but harmless", text: "Say \"this needs coordination\" about something completely unrelated to work." },
+  { id: 12, category: "B. Secret mischief, but harmless", text: "Ask \"who approved this?\" while looking at snacks or drinks." },
+  { id: 13, category: "B. Secret mischief, but harmless", text: "Tell someone \"we need a site meeting\" about the food table." },
+  { id: 14, category: "B. Secret mischief, but harmless", text: "Use the word \"deliverable\" in a normal social conversation." },
+  { id: 15, category: "B. Secret mischief, but harmless", text: "Use the word \"bamboo\" three times without explaining why." },
+  { id: 16, category: "B. Secret mischief, but harmless", text: "Pretend to inspect a chair before sitting on it." },
+  { id: 17, category: "B. Secret mischief, but harmless", text: "Announce that the music has passed structural review." },
+  { id: 18, category: "B. Secret mischief, but harmless", text: "Say \"we shall revert\" and then walk away." },
+  { id: 19, category: "B. Secret mischief, but harmless", text: "Secretly start a rumour that someone is winning the bamboo forest." },
+  { id: 20, category: "B. Secret mischief, but harmless", text: "Ask someone if their drink has been approved by QA/QC." },
+  { id: 21, category: "C. Food and drink challenges", text: "Drink one bottle of beer." },
+  { id: 22, category: "C. Food and drink challenges", text: "Drink two bottles of beer." },
+  { id: 23, category: "C. Food and drink challenges", text: "Drink three bottles of beer." },
+  { id: 24, category: "C. Food and drink challenges", text: "Drink four bottles of beer." },
+  { id: 25, category: "C. Food and drink challenges", text: "Drink five bottles of beer, responsibly, with water and food." },
+  { id: 26, category: "C. Food and drink challenges", text: "Drink no alcohol at all and still have maximum vibes." },
+  { id: 27, category: "C. Food and drink challenges", text: "Drink only soda or juice the whole time." },
+  { id: 28, category: "C. Food and drink challenges", text: "Drink a full glass of water between drinks." },
+  { id: 29, category: "C. Food and drink challenges", text: "Convince someone else to drink water." },
+  { id: 30, category: "C. Food and drink challenges", text: "Eat something and describe it like a professional food critic." },
+  { id: 31, category: "C. Food and drink challenges", text: "Recommend a snack to someone with full confidence." },
+  { id: 32, category: "C. Food and drink challenges", text: "Say \"this food is a project success.\"" },
+  { id: 33, category: "C. Food and drink challenges", text: "Hold a drink dramatically while giving advice." },
+  { id: 34, category: "C. Food and drink challenges", text: "Finish the night hydrated." },
+  { id: 35, category: "D. Conversation missions", text: "Ask someone what they would do if they had a free one-acre plot." },
+  { id: 36, category: "D. Conversation missions", text: "Ask someone what their bamboo forest would be called." },
+  { id: 37, category: "D. Conversation missions", text: "Ask someone what their hidden talent is." },
+  { id: 38, category: "D. Conversation missions", text: "Ask someone for their most harmless office confession." },
+  { id: 39, category: "D. Conversation missions", text: "Ask someone what song describes their week." },
+  { id: 40, category: "D. Conversation missions", text: "Ask someone what they would ban from meetings forever." },
+  { id: 41, category: "D. Conversation missions", text: "Ask someone what they would add to every TGIF." },
+  { id: 42, category: "D. Conversation missions", text: "Ask someone what job they would do if Localworks did not exist." },
+  { id: 43, category: "D. Conversation missions", text: "Ask someone which Localworks project has the best vibes." },
+  { id: 44, category: "D. Conversation missions", text: "Ask someone to explain their work badly on purpose." },
+  { id: 45, category: "E. Games, competition, and small victories", text: "Beat someone at foosball." },
+  { id: 46, category: "E. Games, competition, and small victories", text: "Lose at foosball and blame \"poor site conditions.\"" },
+  { id: 47, category: "E. Games, competition, and small victories", text: "Score one foosball goal and celebrate like Uganda won the World Cup." },
+  { id: 48, category: "E. Games, competition, and small victories", text: "Challenge someone to rock-paper-scissors." },
+  { id: 49, category: "E. Games, competition, and small victories", text: "Win rock-paper-scissors." },
+  { id: 50, category: "E. Games, competition, and small victories", text: "Lose rock-paper-scissors and demand a rematch." },
+  { id: 51, category: "E. Games, competition, and small victories", text: "Start a clap rhythm and get at least two people to join." },
+  { id: 52, category: "E. Games, competition, and small victories", text: "Dance for at least 10 seconds." },
+  { id: 53, category: "E. Games, competition, and small victories", text: "Dance while seated." },
+  { id: 54, category: "E. Games, competition, and small victories", text: "Make someone dance who claimed they do not dance." },
+  { id: 55, category: "E. Games, competition, and small victories", text: "Start a mini chant for someone." },
+  { id: 56, category: "E. Games, competition, and small victories", text: "Quietly copy someone's dance move." },
+  { id: 57, category: "E. Games, competition, and small victories", text: "Do a victory pose after completing any activity." },
+  { id: 58, category: "E. Games, competition, and small victories", text: "Celebrate someone else's small win loudly." },
+  { id: 59, category: "E. Games, competition, and small victories", text: "Declare yourself temporarily unbeatable at something." },
+  { id: 60, category: "F. MC, speaker, and room interaction", text: "Interrupt the MC politely with a funny comment." },
+  { id: 61, category: "F. MC, speaker, and room interaction", text: "Ask the MC a completely unnecessary question." },
+  { id: 62, category: "F. MC, speaker, and room interaction", text: "Cheer for a speaker before they start." },
+  { id: 63, category: "F. MC, speaker, and room interaction", text: "Say \"point of information\" during a casual moment." },
+  { id: 64, category: "F. MC, speaker, and room interaction", text: "Ask someone to \"take minutes\" of a funny conversation." },
+  { id: 65, category: "F. MC, speaker, and room interaction", text: "Clap as if a major contract has just been awarded." },
+  { id: 66, category: "F. MC, speaker, and room interaction", text: "Ask for a vote on something silly." },
+  { id: 67, category: "F. MC, speaker, and room interaction", text: "Nominate someone as Minister of Vibes." },
+  { id: 68, category: "F. MC, speaker, and room interaction", text: "Give someone a fake award title." },
+  { id: 69, category: "F. MC, speaker, and room interaction", text: "Whisper \"this is going in the report\" after something funny happens." },
+  { id: 70, category: "G. Localworks-flavoured fun", text: "Mention bamboo in a conversation where it does not belong." },
+  { id: 71, category: "G. Localworks-flavoured fun", text: "Describe your drink as a \"locally sourced material.\"" },
+  { id: 72, category: "G. Localworks-flavoured fun", text: "Call the snack table a \"mixed-use development.\"" },
+  { id: 73, category: "G. Localworks-flavoured fun", text: "Refer to the dance floor as \"public realm.\"" },
+  { id: 74, category: "G. Localworks-flavoured fun", text: "Say a chair has \"good structural integrity.\"" },
+  { id: 75, category: "G. Localworks-flavoured fun", text: "Tell someone their outfit has \"excellent detailing.\"" },
+  { id: 76, category: "G. Localworks-flavoured fun", text: "Describe someone's laugh as \"good acoustic performance.\"" },
+  { id: 77, category: "G. Localworks-flavoured fun", text: "Call a group of people a \"cluster development.\"" },
+  { id: 78, category: "G. Localworks-flavoured fun", text: "Say your bamboo forest is \"low carbon and high vibes.\"" },
+  { id: 79, category: "G. Localworks-flavoured fun", text: "Explain your mood using an engineering or architectural term." },
+  { id: 80, category: "G. Localworks-flavoured fun", text: "Say \"I am just here for the bamboo\" with a straight face." },
+  { id: 81, category: "G. Localworks-flavoured fun", text: "Invent a fake Localworks department." },
+  { id: 82, category: "H. Secret identity and bragging missions", text: "Name your bamboo forest." },
+  { id: 83, category: "H. Secret identity and bragging missions", text: "Tell someone your bamboo forest is growing faster than theirs." },
+  { id: 84, category: "H. Secret identity and bragging missions", text: "Form a secret bamboo alliance with one person." },
+  { id: 85, category: "H. Secret identity and bragging missions", text: "Betray your bamboo alliance politely." },
+  { id: 86, category: "H. Secret identity and bragging missions", text: "Tell someone you are \"not here to compete\" while clearly competing." },
+  { id: 87, category: "H. Secret identity and bragging missions", text: "Quietly check your bamboo count and smile suspiciously." },
+  { id: 88, category: "H. Secret identity and bragging missions", text: "Accuse someone of having illegal bamboo." },
+  { id: 89, category: "H. Secret identity and bragging missions", text: "Declare yourself the most fun person in the room, privately or publicly." },
+  { id: 90, category: "H. Secret identity and bragging missions", text: "Create a fake campaign slogan for your bamboo forest." },
+  { id: 91, category: "H. Secret identity and bragging missions", text: "Secretly complete 10 activities before anyone notices." },
+  { id: 92, category: "I. Funny personal dares", text: "Speak in a serious meeting voice for one full minute." },
+  { id: 93, category: "I. Funny personal dares", text: "Speak in a fake radio presenter voice for one sentence." },
+  { id: 94, category: "I. Funny personal dares", text: "Use a proverb badly but confidently." },
+  { id: 95, category: "I. Funny personal dares", text: "Say \"as per my last bamboo\" in conversation." },
+  { id: 96, category: "I. Funny personal dares", text: "Laugh at a joke you did not fully hear." },
+  { id: 97, category: "I. Funny personal dares", text: "Pretend to understand a story, then ask one unrelated question but make it seem like it comes from the story's context." },
+  { id: 98, category: "I. Funny personal dares", text: "Give life advice that sounds wise but means almost nothing." },
+  { id: 99, category: "I. Funny personal dares", text: "Say \"I was young then\" about something that happened last week." },
+  { id: 100, category: "I. Funny personal dares", text: "Make a dramatic entrance or exit." },
+  { id: 101, category: "I. Funny personal dares", text: "End the night by telling someone, \"My forest has grown.\"" },
 ];
 
-const plotPositions = [
-  [18, 28], [31, 19], [46, 28], [62, 17], [77, 26], [86, 43], [69, 40],
-  [53, 46], [37, 39], [22, 49], [13, 64], [29, 61], [45, 65], [61, 59],
-  [77, 62], [88, 76], [70, 78], [54, 75], [37, 79], [20, 78], [12, 89],
-  [28, 91], [44, 88], [60, 91], [77, 89], [91, 58], [7, 43], [52, 17],
-];
+const plotPositions = Array.from({ length: tasks.length }, (_, index) => {
+  const column = index % 11;
+  const row = Math.floor(index / 11);
+  const left = 7 + column * 8.6 + (row % 2) * 2.2;
+  const top = 17 + row * 7.8 + ((column % 3) - 1) * 1.1;
+  return [left, top];
+});
 
 const categoryNotes: Record<string, string> = {
-  Arrive: "First tasks",
-  Connect: "Meet people",
-  Taste: "Food and drink",
-  Play: "Games",
-  Imagine: "Ideas",
-  Celebrate: "Team results",
+  "A. Arrival, greetings, and social sneaking": "10 tasks",
+  "B. Secret mischief, but harmless": "10 tasks",
+  "C. Food and drink challenges": "14 tasks",
+  "D. Conversation missions": "10 tasks",
+  "E. Games, competition, and small victories": "15 tasks",
+  "F. MC, speaker, and room interaction": "10 tasks",
+  "G. Localworks-flavoured fun": "12 tasks",
+  "H. Secret identity and bragging missions": "10 tasks",
+  "I. Funny personal dares": "10 tasks",
 };
 
 function stageFor(count: number) {
   if (count === 0) return { name: "Bare earth", next: 1, note: "One tick plants your first clump." };
-  if (count < 6) return { name: "First clumps", next: 6, note: "Your plot has its first clumps." };
-  if (count < 13) return { name: "Young bamboo", next: 13, note: "Your clumps are growing." };
-  if (count < 21) return { name: "Tall bamboo", next: 21, note: "Your plot has many clumps." };
+  if (count < 20) return { name: "First clumps", next: 20, note: "Your plot has its first clumps." };
+  if (count < 40) return { name: "Young bamboo", next: 40, note: "Your clumps are growing." };
+  if (count < 70) return { name: "Tall bamboo", next: 70, note: "Your plot has many clumps." };
   if (count < tasks.length) return { name: "Dense bamboo", next: tasks.length, note: "Tick more tasks to fill your plot." };
   return { name: "Full plot", next: tasks.length, note: "You ticked all tasks." };
 }
@@ -880,7 +957,7 @@ export default function Home() {
                     <strong>{completed.length === tasks.length ? "ALL TASKS TICKED" : `${stage.next - completed.length} TICK TO THE NEXT STAGE`}</strong>
                   </div>
                   <div className="stage-dots" aria-hidden="true">
-                    {[1, 6, 13, 21, 28].map((point) => (
+                    {[1, 20, 40, 70, 101].map((point) => (
                       <i key={point} className={completed.length >= point ? "active" : ""} />
                     ))}
                   </div>

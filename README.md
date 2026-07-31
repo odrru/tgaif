@@ -9,7 +9,7 @@ in Kampala. Players tick TGIF party tasks to grow bamboo clumps on a plot.
 
 - Direct Google ID-token sign-in with Supabase session management
 - Local preview fallback when Supabase is not configured
-- 28 TGIF party tasks
+- 101 TGIF party tasks
 - Animated bamboo plot that grows with every tick
 - Account-based progress, profiles and a public leaderboard
 - Progress stages, search, filters, reset and sharing

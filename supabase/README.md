@@ -9,7 +9,7 @@ of `migrations/20260731120000_initial_game_schema.sql`, and select **Run**.
 The migration creates:
 
 - public Google-backed player profiles;
-- the 28 party tasks;
+- the TGIF party tasks;
 - private, user-owned task completions;
 - a public aggregate leaderboard;
 - row-level security policies for every exposed table.
