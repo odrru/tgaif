@@ -203,12 +203,12 @@ const categoryNotes: Record<string, string> = {
 };
 
 function stageFor(count: number) {
-  if (count === 0) return { name: "Bare earth", next: 1, note: "One tick plants your first clump." };
-  if (count < 20) return { name: "First clumps", next: 20, note: "Your plot has its first clumps." };
-  if (count < 40) return { name: "Young bamboo", next: 40, note: "Your clumps are growing." };
-  if (count < 70) return { name: "Tall bamboo", next: 70, note: "Your plot has many clumps." };
-  if (count < tasks.length) return { name: "Dense bamboo", next: tasks.length, note: "Tick more tasks to fill your plot." };
-  return { name: "Full plot", next: tasks.length, note: "You ticked all tasks." };
+  if (count === 0) return { name: "Bare earth" };
+  if (count < 20) return { name: "First clumps" };
+  if (count < 40) return { name: "Young bamboo" };
+  if (count < 70) return { name: "Tall bamboo" };
+  if (count < tasks.length) return { name: "Dense bamboo" };
+  return { name: "Full plot" };
 }
 
 function initialsFor(name: string) {
@@ -251,7 +251,6 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [newPlant, setNewPlant] = useState<number | null>(null);
   const [toast, setToast] = useState("");
-  const [shareLabel, setShareLabel] = useState("Show my plot");
   const plantationRef = useRef<HTMLElement>(null);
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const googleSetupVersionRef = useRef(0);
@@ -599,7 +598,7 @@ export default function Home() {
 
   async function resetPlantation() {
     if (completed.length === 0) return;
-    if (!window.confirm("This action clears every tick and returns the plot to bare earth.")) return;
+    if (!window.confirm("Are you sure? This will clear all ticks.")) return;
 
     const previous = completed;
     setCompleted([]);
@@ -631,25 +630,6 @@ export default function Home() {
     }
     window.sessionStorage.removeItem("tgaif-entered");
     setScreen("login");
-  }
-
-  async function sharePlantation() {
-    const message = `${playerName} planted ${completed.length} of ${tasks.length} clumps at the TGIF party. Plot stage: ${stage.name}.`;
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: "My TG(AI)F plot",
-          text: message,
-          url: window.location.origin,
-        });
-      } else {
-        await navigator.clipboard.writeText(`${message} ${window.location.origin}`);
-        setShareLabel("The app copied your score.");
-        window.setTimeout(() => setShareLabel("Show my plot"), 1800);
-      }
-    } catch {
-      // Closing the native share sheet should leave the experience unchanged.
-    }
   }
 
   if (screen === "login") {
@@ -948,19 +928,6 @@ export default function Home() {
                   {completed.length === 0 && (
                     <div className="first-shoot-note"><span>↓</span> Tick a task to plant a clump.</div>
                   )}
-                  <div className="plot-caption"><span className="live-dot" /> LIVE PLOT · KAMPALA</div>
-                </div>
-
-                <div className="stage-progress">
-                  <div>
-                    <span>{stage.note}</span>
-                    <strong>{completed.length === tasks.length ? "ALL TASKS TICKED" : `${stage.next - completed.length} TICK TO THE NEXT STAGE`}</strong>
-                  </div>
-                  <div className="stage-dots" aria-hidden="true">
-                    {[1, 20, 40, 70, 101].map((point) => (
-                      <i key={point} className={completed.length >= point ? "active" : ""} />
-                    ))}
-                  </div>
                 </div>
               </>
             ) : (
@@ -1007,11 +974,8 @@ export default function Home() {
               </div>
             )}
 
-            <button className="share-button" onClick={sharePlantation} disabled={completed.length === 0}>
-              <span>↗</span> {shareLabel}
-            </button>
             <button className="reset-button" onClick={resetPlantation}>
-              {isSupabaseConfigured ? "Reset my plot" : "Reset the preview"}
+              Reset my plot
             </button>
           </div>
 
