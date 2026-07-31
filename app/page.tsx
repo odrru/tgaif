@@ -716,7 +716,7 @@ export default function Home() {
         </header>
 
         <section className="login-card" aria-labelledby="welcome-title">
-          <div className="eyebrow">THE TGIF PARTY TASK LIST</div>
+          <div className="eyebrow">TG(AI)F Party List</div>
           <h1 id="welcome-title">Do tasks.<br /><span>Grow bamboo.</span></h1>
           <p className="login-lede">
             Each tick plants one bamboo clump on your plot.
@@ -769,11 +769,7 @@ export default function Home() {
             </button>
           )}
           <p className={`preview-note ${authError ? "auth-error" : ""}`}>
-            {authError
-              ? authError
-              : isSupabaseConfigured
-                ? "The app saves your progress to your account."
-                : ""}
+            {authError}
           </p>
 
         </section>
@@ -790,11 +786,6 @@ export default function Home() {
           <span className="hero-leaf leaf-e" />
         </div>
 
-        <footer className="login-footer">
-          <span></span>
-          <span className="footer-dot"></span>
-          <span>ONE TICK = ONE CLUMP</span>
-        </footer>
       </main>
     );
   }

@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase,
-    title: "TG(AI)F — The TGIF party task list",
+    title: "TG(AI)F | The TGIF party task list",
     description:
       "Tick tasks at the TGIF party. Grow bamboo clumps on your plot.",
     openGraph: {

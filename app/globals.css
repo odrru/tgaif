@@ -55,8 +55,7 @@ input:focus-visible {
     linear-gradient(90deg, transparent 49.9%, #eef1eb 50%, transparent 50.1%);
 }
 
-.login-nav,
-.login-footer {
+.login-nav {
   position: relative;
   z-index: 5;
   display: flex;
@@ -382,20 +381,6 @@ input:focus-visible {
 .leaf-c { left: 61%; top: 48%; transform: rotate(-22deg) scale(.85); animation-delay: 530ms; }
 .leaf-d { left: 73%; top: 22%; transform: scaleX(-1) rotate(-24deg) scale(.9); animation-delay: 590ms; }
 .leaf-e { left: 73%; top: 34%; transform: rotate(18deg) scale(.75); animation-delay: 650ms; }
-
-.login-footer {
-  justify-content: flex-start;
-  gap: 12px;
-  color: #87938b;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.footer-dot {
-  color: #91b34a;
-}
 
 /* Game */
 .game-shell {
@@ -1599,12 +1584,6 @@ input:focus-visible {
   .leaf-d { left: 75%; top: 24%; }
   .leaf-e { left: 75%; top: 39%; }
 
-  .login-footer {
-    justify-content: center;
-    padding-top: 12px;
-    font-size: 8px;
-  }
-
   .game-header {
     height: 66px;
     grid-template-columns: auto 1fr auto;
@@ -1701,11 +1680,6 @@ input:focus-visible {
 
   .how-it-works {
     margin-top: 24px;
-  }
-
-  .login-footer span:first-child,
-  .login-footer .footer-dot {
-    display: none;
   }
 
   .list-tools {
