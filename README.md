@@ -8,7 +8,7 @@ them off to grow a personal bamboo plantation.
 
 ## Current version
 
-- Real Google OAuth through Supabase when environment variables are present
+- Direct Google ID-token sign-in with Supabase session management
 - Local preview fallback when Supabase is not configured
 - 28 party bucket-list missions
 - Animated bamboo plantation that grows with every completed task
@@ -41,4 +41,6 @@ npm run start
 The project is a standard Next.js application prepared for Vercel. Provision
 Supabase from the Vercel Marketplace so its environment variables are
 synchronized automatically. Apply the included migration, configure the Google
-provider and allow `/auth/callback` in Supabase before using production login.
+provider, and add the deployed app under the Google OAuth client’s Authorized
+JavaScript origins. Direct sign-in keeps the account chooser on the app’s own
+domain instead of displaying the Supabase project callback URL.

@@ -217,6 +217,35 @@ input:focus-visible {
   cursor: wait;
 }
 
+.google-signin-wrap {
+  position: relative;
+  width: min(380px, 100%);
+  min-height: 54px;
+}
+
+.google-signin-button {
+  width: 100%;
+  min-height: 54px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.google-signin-wrap.is-ready .google-signin-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.google-signin-button > div,
+.google-signin-button iframe {
+  max-width: 100%;
+}
+
+.google-placeholder {
+  position: absolute;
+  inset: 0;
+}
+
 .google-mark {
   display: grid;
   place-items: center;

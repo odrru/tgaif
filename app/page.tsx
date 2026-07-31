@@ -1,6 +1,7 @@
 "use client";
 
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
+import Script from "next/script";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getSupabaseBrowserClient,
@@ -21,6 +22,61 @@ type LeaderboardEntry = {
   completed_count: number;
   last_completion_at: string | null;
 };
+
+type GoogleCredentialResponse = {
+  credential: string;
+  select_by: string;
+};
+
+type GoogleIdentity = {
+  initialize: (options: {
+    client_id: string;
+    callback: (response: GoogleCredentialResponse) => void;
+    nonce: string;
+    ux_mode: "popup";
+  }) => void;
+  renderButton: (
+    parent: HTMLElement,
+    options: {
+      type: "standard";
+      shape: "pill";
+      theme: "outline";
+      text: "continue_with";
+      size: "large";
+      logo_alignment: "left";
+      width: number;
+    }
+  ) => void;
+};
+
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: GoogleIdentity;
+      };
+    };
+  }
+}
+
+// Google OAuth client IDs are public browser configuration, not secrets.
+// An environment variable can replace this value without changing the app.
+const googleClientId =
+  process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ??
+  "526361313034-dtjcpe94ecamece9tllunn1vvh3it2f8.apps.googleusercontent.com";
+
+async function generateGoogleNonce() {
+  const nonce = btoa(
+    String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32)))
+  );
+  const encodedNonce = new TextEncoder().encode(nonce);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", encodedNonce);
+  const hashedNonce = Array.from(new Uint8Array(hashBuffer))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+
+  return { nonce, hashedNonce };
+}
 
 const tasks: Task[] = [
   { id: 1, category: "Arrive", text: "Take a team selfie at the entrance", hint: "Proof or it didn’t happen" },
@@ -102,6 +158,8 @@ function GoogleMark() {
 export default function Home() {
   const [screen, setScreen] = useState<"login" | "game">("login");
   const [authReady, setAuthReady] = useState(!isSupabaseConfigured);
+  const [googleScriptReady, setGoogleScriptReady] = useState(false);
+  const [googleButtonReady, setGoogleButtonReady] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [authError, setAuthError] = useState("");
   const [user, setUser] = useState<User | null>(null);
@@ -117,11 +175,13 @@ export default function Home() {
   const [toast, setToast] = useState("");
   const [shareLabel, setShareLabel] = useState("Show off my plantation");
   const plantationRef = useRef<HTMLElement>(null);
+  const googleButtonRef = useRef<HTMLDivElement>(null);
+  const googleSetupVersionRef = useRef(0);
 
   useEffect(() => {
     const authMessage = new URLSearchParams(window.location.search).get("auth_error");
     if (authMessage) {
-      setAuthError(authMessage);
+      queueMicrotask(() => setAuthError(authMessage));
       window.history.replaceState({}, "", window.location.pathname);
     }
 
@@ -129,15 +189,19 @@ export default function Home() {
     if (!supabase) {
       const stored = window.localStorage.getItem("tgaif-completed");
       const entered = window.sessionStorage.getItem("tgaif-entered");
+      let storedCompletions: number[] | null = null;
       if (stored) {
         try {
-          setCompleted(JSON.parse(stored));
+          storedCompletions = JSON.parse(stored);
         } catch {
           window.localStorage.removeItem("tgaif-completed");
         }
       }
-      if (entered === "true") setScreen("game");
-      setAuthReady(true);
+      queueMicrotask(() => {
+        if (storedCompletions) setCompleted(storedCompletions);
+        if (entered === "true") setScreen("game");
+        setAuthReady(true);
+      });
       return;
     }
 
@@ -166,6 +230,7 @@ export default function Home() {
       (_event: AuthChangeEvent, session: Session | null) => {
       if (!active) return;
       setUser(session?.user ?? null);
+      setLoggingIn(false);
       if (session?.user) {
         setScreen("game");
         void loadPlayerData(session.user);
@@ -188,6 +253,78 @@ export default function Home() {
       window.localStorage.setItem("tgaif-completed", JSON.stringify(completed));
     }
   }, [completed]);
+
+  useEffect(() => {
+    if (
+      !isSupabaseConfigured ||
+      !authReady ||
+      !googleScriptReady ||
+      screen !== "login" ||
+      !window.google ||
+      !googleButtonRef.current
+    ) {
+      return;
+    }
+
+    const buttonElement = googleButtonRef.current;
+    const setupVersion = ++googleSetupVersionRef.current;
+
+    async function setupGoogleButton() {
+      try {
+        const { nonce, hashedNonce } = await generateGoogleNonce();
+        if (
+          setupVersion !== googleSetupVersionRef.current ||
+          googleButtonRef.current !== buttonElement ||
+          !window.google
+        ) {
+          return;
+        }
+
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          nonce: hashedNonce,
+          ux_mode: "popup",
+          callback: async (response) => {
+            const supabase = getSupabaseBrowserClient();
+            if (!supabase) return;
+
+            setAuthError("");
+            setLoggingIn(true);
+            const { error } = await supabase.auth.signInWithIdToken({
+              provider: "google",
+              token: response.credential,
+              nonce,
+            });
+
+            if (error) {
+              setAuthError(error.message);
+              setLoggingIn(false);
+            }
+          },
+        });
+
+        buttonElement.replaceChildren();
+        window.google.accounts.id.renderButton(buttonElement, {
+          type: "standard",
+          shape: "pill",
+          theme: "outline",
+          text: "continue_with",
+          size: "large",
+          logo_alignment: "left",
+          width: Math.min(380, Math.max(240, buttonElement.clientWidth)),
+        });
+        setGoogleButtonReady(true);
+      } catch {
+        setAuthError("Google sign-in could not load. Please refresh and try again.");
+      }
+    }
+
+    void setupGoogleButton();
+
+    return () => {
+      googleSetupVersionRef.current += 1;
+    };
+  }, [authReady, googleScriptReady, screen]);
 
   async function loadPlayerData(account: User) {
     const supabase = getSupabaseBrowserClient();
@@ -278,28 +415,17 @@ export default function Home() {
     setAuthError("");
     const supabase = getSupabaseBrowserClient();
 
-    if (!supabase) {
-      setLoggingIn(true);
-      window.setTimeout(() => {
-        window.sessionStorage.setItem("tgaif-entered", "true");
-        setLoggingIn(false);
-        setScreen("game");
-      }, 650);
+    if (supabase) {
+      setAuthError("Google sign-in is still loading. Please try again.");
       return;
     }
 
     setLoggingIn(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-
-    if (error) {
-      setAuthError(error.message);
+    window.setTimeout(() => {
+      window.sessionStorage.setItem("tgaif-entered", "true");
       setLoggingIn(false);
-    }
+      setScreen("game");
+    }, 650);
   }
 
   async function toggleTask(id: number) {
@@ -418,20 +544,51 @@ export default function Home() {
             How lush can your plot get before the night ends?
           </p>
 
-          <button
-            className="google-button"
-            onClick={enterGame}
-            disabled={loggingIn || !authReady}
-          >
-            {loggingIn || !authReady ? <span className="spinner" /> : <GoogleMark />}
-            <span>
-              {!authReady
-                ? "Checking your plot…"
-                : loggingIn
-                  ? "Opening your plot…"
-                  : "Continue with Google"}
-            </span>
-          </button>
+          {isSupabaseConfigured ? (
+            <>
+              <Script
+                src="https://accounts.google.com/gsi/client"
+                strategy="afterInteractive"
+                onReady={() => setGoogleScriptReady(true)}
+                onError={() =>
+                  setAuthError("Google sign-in could not load. Please refresh and try again.")
+                }
+              />
+              <div
+                className={`google-signin-wrap ${
+                  googleButtonReady && !loggingIn ? "is-ready" : ""
+                }`}
+                aria-busy={!googleButtonReady || loggingIn}
+              >
+                <div className="google-signin-button" ref={googleButtonRef} />
+                {(!googleButtonReady || loggingIn) && (
+                  <button className="google-button google-placeholder" disabled>
+                    <span className="spinner" />
+                    <span>
+                      {!authReady || !googleButtonReady
+                        ? "Loading secure sign-in…"
+                        : "Opening your plot…"}
+                    </span>
+                  </button>
+                )}
+              </div>
+            </>
+          ) : (
+            <button
+              className="google-button"
+              onClick={enterGame}
+              disabled={loggingIn || !authReady}
+            >
+              {loggingIn || !authReady ? <span className="spinner" /> : <GoogleMark />}
+              <span>
+                {!authReady
+                  ? "Checking your plot…"
+                  : loggingIn
+                    ? "Opening your plot…"
+                    : "Continue with Google"}
+              </span>
+            </button>
+          )}
           <p className={`preview-note ${authError ? "auth-error" : ""}`}>
             {authError
               ? authError
