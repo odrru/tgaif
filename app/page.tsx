@@ -252,6 +252,10 @@ export default function Home() {
   const [newPlant, setNewPlant] = useState<number | null>(null);
   const [toast, setToast] = useState("");
   const [showResetConfirmation, setShowResetConfirmation] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
+  const [accountError, setAccountError] = useState("");
   const plantationRef = useRef<HTMLElement>(null);
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const googleSetupVersionRef = useRef(0);
@@ -632,12 +636,72 @@ export default function Home() {
   }
 
   async function signOut() {
+    setAccountMenuOpen(false);
+    setShowDeleteConfirmation(false);
+    setAccountError("");
     const supabase = getSupabaseBrowserClient();
     if (supabase) {
       await supabase.auth.signOut();
       return;
     }
     window.sessionStorage.removeItem("tgaif-entered");
+    setScreen("login");
+  }
+
+  async function deleteAccount() {
+    const supabase = getSupabaseBrowserClient();
+    setDeletingAccount(true);
+    setAccountError("");
+
+    if (!supabase || !user) {
+      window.localStorage.removeItem("tgaif-completed");
+      window.sessionStorage.removeItem("tgaif-entered");
+      setCompleted([]);
+      setAccountMenuOpen(false);
+      setShowDeleteConfirmation(false);
+      setDeletingAccount(false);
+      setScreen("login");
+      return;
+    }
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      setAccountError("Your session is not valid. Log in again.");
+      setDeletingAccount(false);
+      return;
+    }
+
+    let response: Response;
+    try {
+      response = await fetch("/api/account", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+    } catch {
+      setAccountError("The app did not delete your account. Try again.");
+      setDeletingAccount(false);
+      return;
+    }
+
+    if (!response.ok) {
+      setAccountError("The app did not delete your account. Try again.");
+      setDeletingAccount(false);
+      return;
+    }
+
+    await supabase.auth.signOut({ scope: "local" });
+    setCompleted([]);
+    setLeaderboard([]);
+    setUser(null);
+    setAccountMenuOpen(false);
+    setShowDeleteConfirmation(false);
+    setDeletingAccount(false);
+    setAuthError("Your account was deleted.");
     setScreen("login");
   }
 
@@ -749,14 +813,64 @@ export default function Home() {
           </div>
           <div className="progress-track"><span style={{ width: `${progress}%` }} /></div>
         </div>
-        <button className="avatar-button" onClick={signOut} title={`Sign out as ${playerName}.`}>
-          {avatarUrl ? (
-            <img src={avatarUrl} alt="" referrerPolicy="no-referrer" />
-          ) : (
-            initialsFor(playerName)
+        <div className="account-menu">
+          <button
+            className="avatar-button"
+            onClick={() => {
+              setAccountMenuOpen((current) => !current);
+              setShowDeleteConfirmation(false);
+              setAccountError("");
+            }}
+            title={`Account options for ${playerName}.`}
+            aria-label={`Account options for ${playerName}.`}
+            aria-haspopup="true"
+            aria-expanded={accountMenuOpen}
+          >
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="" referrerPolicy="no-referrer" />
+            ) : (
+              initialsFor(playerName)
+            )}
+            <span>{playerName}</span>
+          </button>
+          {accountMenuOpen && (
+            <div className="account-menu-panel" aria-label="Account options">
+              <strong>{playerName}</strong>
+              {!showDeleteConfirmation ? (
+                <>
+                  <button onClick={signOut}>Log out</button>
+                  <button
+                    className="delete-account-button"
+                    onClick={() => setShowDeleteConfirmation(true)}
+                  >
+                    Delete account
+                  </button>
+                </>
+              ) : (
+                <div className="delete-account-confirmation" role="group" aria-label="Delete account confirmation">
+                  <p>Delete your account? This will clear all ticks and remove your account.</p>
+                  {accountError && <p className="account-error">{accountError}</p>}
+                  <button
+                    className="confirm-account-deletion"
+                    onClick={deleteAccount}
+                    disabled={deletingAccount}
+                  >
+                    {deletingAccount ? "Deleting account…" : "Delete account"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowDeleteConfirmation(false);
+                      setAccountError("");
+                    }}
+                    disabled={deletingAccount}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </div>
           )}
-          <span>{playerName}</span>
-        </button>
+        </div>
       </header>
 
       <div className="game-grid">

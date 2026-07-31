@@ -472,8 +472,12 @@ input:focus-visible {
   transition: width 450ms cubic-bezier(.2,.8,.2,1);
 }
 
-.avatar-button {
+.account-menu {
+  position: relative;
   justify-self: end;
+}
+
+.avatar-button {
   width: 38px;
   height: 38px;
   overflow: hidden;
@@ -500,6 +504,70 @@ input:focus-visible {
   height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
+}
+
+.account-menu-panel {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 220px;
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid #dfe5dc;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 16px 38px rgba(26, 55, 37, .16);
+}
+
+.account-menu-panel > strong {
+  overflow: hidden;
+  padding: 2px 4px 7px;
+  color: var(--forest);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-menu-panel button {
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid #dfe5dc;
+  border-radius: 7px;
+  background: #f8faf6;
+  color: var(--forest);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.account-menu-panel button:disabled {
+  cursor: wait;
+  opacity: .6;
+}
+
+.account-menu-panel .delete-account-button,
+.account-menu-panel .confirm-account-deletion {
+  border-color: #b85c51;
+  color: #9b4138;
+}
+
+.delete-account-confirmation {
+  display: grid;
+  gap: 7px;
+}
+
+.delete-account-confirmation p {
+  margin: 0 2px 3px;
+  color: #5f6e63;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.delete-account-confirmation .account-error {
+  color: #9b4138;
 }
 
 .game-grid {

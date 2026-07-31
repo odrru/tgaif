@@ -12,7 +12,8 @@ in Kampala. Players tick TGIF party tasks to grow bamboo clumps on a plot.
 - 101 TGIF party tasks
 - Animated bamboo plot that grows with every tick
 - Account-based progress, profiles and a public leaderboard
-- Progress stages, search, filters, reset and sharing
+- Account controls for log out and permanent account deletion
+- Search, filters, plot reset and five-player task limits
 - Responsive desktop and mobile layouts
 
 The database migration and setup notes are in [`supabase/`](supabase/).
