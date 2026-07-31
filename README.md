@@ -8,16 +8,15 @@ them off to grow a personal bamboo plantation.
 
 ## Current version
 
-- Google-style local preview entry
+- Real Google OAuth through Supabase when environment variables are present
+- Local preview fallback when Supabase is not configured
 - 28 party bucket-list missions
 - Animated bamboo plantation that grows with every completed task
+- Account-based progress, profiles and a public leaderboard
 - Progress stages, search, filters, reset and sharing
-- Device-local progress persistence
 - Responsive desktop and mobile layouts
 
-Google authentication, account-based progress and the shared leaderboard are
-the next implementation stage. They will use Supabase after the Vercel project
-and its Supabase integration are created.
+The database migration and setup notes are in [`supabase/`](supabase/).
 
 ## Run locally
 
@@ -39,6 +38,7 @@ npm run start
 
 ## Deployment
 
-The project is a standard Next.js application prepared for Vercel. Import this
-repository into Vercel, then provision Supabase from the Vercel Marketplace so
-its environment variables are synchronized automatically.
+The project is a standard Next.js application prepared for Vercel. Provision
+Supabase from the Vercel Marketplace so its environment variables are
+synchronized automatically. Apply the included migration, configure the Google
+provider and allow `/auth/callback` in Supabase before using production login.
