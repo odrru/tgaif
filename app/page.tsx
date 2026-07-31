@@ -147,7 +147,9 @@ export default function Home() {
       const { data, error } = await supabase.auth.getUser();
       if (!active) return;
 
-      if (error) setAuthError("We couldn’t restore your session. Please sign in again.");
+      if (error && error.name !== "AuthSessionMissingError") {
+        setAuthError("We couldn’t restore your session. Please sign in again.");
+      }
       if (data.user) {
         setUser(data.user);
         setScreen("game");
